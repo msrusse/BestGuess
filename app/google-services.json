@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "57344242657",
+    "firebase_url": "https://best-guess.firebaseio.com",
+    "project_id": "best-guess",
+    "storage_bucket": "best-guess.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:57344242657:android:555f24f52d4d3932",
+        "android_client_info": {
+          "package_name": "com.masonsrussell.bestguess"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "57344242657-k75eq72o679a99jj8gs1lgaj0ps7q9ug.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWJoQKJtIRkLyaa1HLjTenIisZBMHaAL0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
