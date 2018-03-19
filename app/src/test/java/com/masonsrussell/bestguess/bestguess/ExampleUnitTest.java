@@ -1,4 +1,4 @@
-package com.example.masonrussell.bestguess;
+package com.masonsrussell.bestguess.bestguess;
 
 import org.junit.Test;
 
