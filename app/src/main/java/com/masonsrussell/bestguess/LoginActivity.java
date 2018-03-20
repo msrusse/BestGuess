@@ -39,41 +39,6 @@ public class LoginActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		MobileAds.initialize(this, "ca-app-pub-7808223192356121~9980677209");
-		AdView adView = new AdView(this);
-		adView.setAdSize(AdSize.BANNER);
-		adView.setAdUnitId("ca-app-pub-7808223192356121/5466717124");
-		mAdView = findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().build();
-		mAdView.loadAd(adRequest);
-		mAdView.setAdListener(new AdListener() {
-			@Override
-			public void onAdLoaded() {
-				// Code to be executed when an ad finishes loading.
-			}
-
-			@Override
-			public void onAdFailedToLoad(int errorCode) {
-				// Code to be executed when an ad request fails.
-			}
-
-			@Override
-			public void onAdOpened() {
-				// Code to be executed when an ad opens an overlay that
-				// covers the screen.
-			}
-
-			@Override
-			public void onAdLeftApplication() {
-				// Code to be executed when the user has left the app.
-			}
-
-			@Override
-			public void onAdClosed() {
-				// Code to be executed when when the user is about to return
-				// to the app after tapping on an ad.
-			}
-		});
 		mAuth = FirebaseAuth.getInstance();
 		emailText = findViewById(R.id.input_email);
 		passwordText = findViewById(R.id.input_password);
@@ -110,7 +75,9 @@ public class LoginActivity extends AppCompatActivity
 							Log.d(TAG, "signInWithEmail:success");
 							user = mAuth.getCurrentUser();
 							displayName = user.getDisplayName();
-							Toast.makeText(LoginActivity.this, displayName, Toast.LENGTH_SHORT).show();
+							Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+							startActivity(intent);
+							finish();
 						} else {
 							// If sign in fails, display a message to the user.
 							Log.w(TAG, "signInWithEmail:failure", task.getException());
