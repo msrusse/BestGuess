@@ -18,7 +18,6 @@
     </string>
     <string name="facebook_app_id">567505990294738</string>
     <string name="fb_login_protocol_scheme">fb567505990294738</string>
-    <string name="join_game">Join Game</string>
     <string name="host_game">Host Game</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="forgot_password">Forgot password?</string>
@@ -28,5 +27,8 @@
     <string name="password">Password</string>
     <string name="reenter_password">Reenter Password</string>
     <string name="login">Login</string>
-    <string name="game_password">Please enter the Game ID:</string>
+    <string name="game_password">Enter the Game ID</string>
+    <string name="game_id">Game ID:</string>
+    <string name="start_game">Start Game!</string>
+    <string name="join_game">Join Game</string>
 </resources>

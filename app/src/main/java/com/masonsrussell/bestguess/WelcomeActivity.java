@@ -44,8 +44,8 @@ public class WelcomeActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				//Intent intent = new Intent(getApplicationContext(), HostGameActivity.class);
-				//startActivity(intent);
+				Intent intent = new Intent(getApplicationContext(), HostGameActivity.class);
+				startActivity(intent);
 			}
 		});
 		editProfileButton.setOnClickListener(new View.OnClickListener() {
