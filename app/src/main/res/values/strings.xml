@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Best Guess</string>
+    <string name="app_name">Best Guess?</string>
     <string name="login_button">Login</string>
     <string name="create_account_button">Create Account</string>
     <string name="title_activity_login">Sign in</string>
@@ -28,4 +28,5 @@
     <string name="password">Password</string>
     <string name="reenter_password">Reenter Password</string>
     <string name="login">Login</string>
+    <string name="game_password">Please enter the Game ID:</string>
 </resources>

@@ -1,7 +1,10 @@
 package com.masonsrussell.bestguess;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -13,6 +16,7 @@ public class WelcomeActivity extends AppCompatActivity
 	private FirebaseAuth mAuth;
 	TextView welcomeText;
 	String username;
+	Button joinGameButton, hostGameButton, editProfileButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -20,10 +24,37 @@ public class WelcomeActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
 		welcomeText = findViewById(R.id.welcomeText);
+		joinGameButton = findViewById(R.id.playGameButton);
+		hostGameButton = findViewById(R.id.hostGameButton);
+		editProfileButton = findViewById(R.id.editUserButton);
 		mAuth = FirebaseAuth.getInstance();
 		FirebaseUser user = mAuth.getCurrentUser();
 		username = user.getDisplayName();
 		String welcome = "Welcome, " + username;
 		welcomeText.setText(welcome);
+		joinGameButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent(getApplicationContext(), JoinGameActivity.class);
+				startActivity(intent);
+			}
+		});
+		hostGameButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				//Intent intent = new Intent(getApplicationContext(), HostGameActivity.class);
+				//startActivity(intent);
+			}
+		});
+		editProfileButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				//Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+				//startActivity(intent);
+			}
+		});
 	}
 }

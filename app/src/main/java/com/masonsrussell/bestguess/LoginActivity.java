@@ -31,6 +31,10 @@ public class LoginActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		loadActivity();
+	}
+	private void loadActivity()
+	{
 		mAuth = FirebaseAuth.getInstance();
 		emailText = findViewById(R.id.input_email);
 		passwordText = findViewById(R.id.input_password);
@@ -49,14 +53,22 @@ public class LoginActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				email = emailText.getText().toString();
-				password = passwordText.getText().toString();
+				try
+				{
+					email = emailText.getText().toString();
+					password = passwordText.getText().toString();
+				}
+				catch (Exception ex)
+				{
+					Toast.makeText(LoginActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+				}
+				setContentView(R.layout.activity_loading_screen);
 				login();
 			}
 		});
 	}
 
-	void login()
+	private void login()
 	{
 		mAuth.signInWithEmailAndPassword(email, password)
 				.addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -71,10 +83,12 @@ public class LoginActivity extends AppCompatActivity
 							startActivity(intent);
 							finish();
 						} else {
+							setContentView(R.layout.activity_login);
 							// If sign in fails, display a message to the user.
 							Log.w(TAG, "signInWithEmail:failure", task.getException());
 							Toast.makeText(LoginActivity.this, "Authentication failed.",
 									Toast.LENGTH_SHORT).show();
+							loadActivity();
 						}
 					}
 				});
