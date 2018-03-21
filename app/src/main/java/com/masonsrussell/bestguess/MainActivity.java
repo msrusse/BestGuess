@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent2 = new Intent(getApplicationContext(), CreateAccountActivity.class);
                 startActivity(intent2);
+                
             }
         });
     }
