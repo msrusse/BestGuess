@@ -25,7 +25,7 @@ public class CreateAccountActivity extends AppCompatActivity
 	EditText emailText, passwordText, passwordVerifyText, usernameText;
 	Button createAccountButton;
 	TextView loginButton;
-	private static final String TAG = LoginActivity.class.getSimpleName();
+	public static final String TAG = LoginActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
