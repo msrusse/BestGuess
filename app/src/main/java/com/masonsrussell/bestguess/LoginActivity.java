@@ -30,12 +30,20 @@ public class LoginActivity extends AppCompatActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_login);
 		loadActivity();
 	}
 	private void loadActivity()
 	{
+		setContentView(R.layout.activity_login);
 		mAuth = FirebaseAuth.getInstance();
+		try
+		{
+			mAuth.signOut();
+		}
+		catch (Exception ex)
+		{
+			Log.d(TAG, ex.toString());
+		}
 		emailText = findViewById(R.id.input_email);
 		passwordText = findViewById(R.id.input_password);
 		loginButton = findViewById(R.id.btn_login);
@@ -49,24 +57,26 @@ public class LoginActivity extends AppCompatActivity
 				finish();
 			}
 		});
-		loginButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
+			loginButton.setOnClickListener(new View.OnClickListener()
 			{
-				try
+				@Override
+				public void onClick(View v)
 				{
-					email = emailText.getText().toString();
-					password = passwordText.getText().toString();
+					try
+					{
+						email = emailText.getText().toString();
+						password = passwordText.getText().toString();
+						setContentView(R.layout.activity_loading_screen);
+						login();
+					} catch (Exception ex)
+					{
+						Toast.makeText(LoginActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
+						loadActivity();
+					}
 				}
-				catch (Exception ex)
-				{
-					Toast.makeText(LoginActivity.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
-				}
-				setContentView(R.layout.activity_loading_screen);
-				login();
-			}
-		});
-	}
+			});
+		}
+
 
 	private void login()
 	{

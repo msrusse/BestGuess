@@ -33,6 +33,14 @@ public class CreateAccountActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_create_account);
 		mAuth = FirebaseAuth.getInstance();
+		try
+		{
+			mAuth.signOut();
+		}
+		catch (Exception ex)
+		{
+			Log.d(TAG, ex.toString());
+		}
 		emailText = findViewById(R.id.input_email);
 		passwordText = findViewById(R.id.input_password);
 		usernameText = findViewById(R.id.input_name);
