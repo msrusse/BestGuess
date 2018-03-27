@@ -14,7 +14,7 @@ public class HostGameActivity extends AppCompatActivity
 {
 	Button startGameButton;
 	Spinner deckSelectionSpinner;
-	TextView gameIDTextView;
+	TextView gameIDTextView, returnHomeButton;
 	String gameID;
 
 	@Override
@@ -30,8 +30,18 @@ public class HostGameActivity extends AppCompatActivity
 		startGameButton = findViewById(R.id.startGameButton);
 		deckSelectionSpinner = findViewById(R.id.chooseDeckSpinner);
 		gameIDTextView = findViewById(R.id.gamePassword);
+		returnHomeButton = findViewById(R.id.returnHomeButton);
 		gameID = generateRandom();
 		gameIDTextView.setText(gameID);
+
+		returnHomeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				Intent intent = new Intent(getApplicationContext(), WelcomeActivity.class);
+				startActivity(intent);
+			}
+		});
 
 		startGameButton.setOnClickListener(new View.OnClickListener() {
 			@Override

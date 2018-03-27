@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class WelcomeActivity extends AppCompatActivity
 {
 	private FirebaseAuth mAuth;
-	TextView welcomeText;
+	TextView welcomeText, logoutButton;
 	String username;
 	Button joinGameButton, hostGameButton, editProfileButton;
 
@@ -27,11 +27,21 @@ public class WelcomeActivity extends AppCompatActivity
 		joinGameButton = findViewById(R.id.playGameButton);
 		hostGameButton = findViewById(R.id.hostGameButton);
 		editProfileButton = findViewById(R.id.editUserButton);
+		logoutButton = findViewById(R.id.logoutButton);
 		mAuth = FirebaseAuth.getInstance();
 		FirebaseUser user = mAuth.getCurrentUser();
 		username = user.getDisplayName();
 		String welcome = "Welcome, " + username;
 		welcomeText.setText(welcome);
+		logoutButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v)
+			{
+				mAuth.signOut();
+				Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+				startActivity(intent);
+			}
+		});
 		joinGameButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v)
@@ -54,6 +64,7 @@ public class WelcomeActivity extends AppCompatActivity
 			{
 				Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
 				startActivity(intent);
+				finish();
 			}
 		});
 	}
