@@ -37,4 +37,6 @@
     <string name="update_account">Update Account</string>
     <string name="return_home">Return Home</string>
     <string name="logout">Logout</string>
+    <string name="answer_hint">Enter Answer</string>
+    <string name="submit">Submit</string>
 </resources>

@@ -44,7 +44,6 @@ public class JoinGameActivity extends AppCompatActivity
 			{
 				gameToJoin = gameID.getText().toString();
 				setContentView(R.layout.activity_loading_screen);
-
 			}
 		});
 	}

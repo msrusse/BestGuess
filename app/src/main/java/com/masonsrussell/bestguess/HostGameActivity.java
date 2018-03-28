@@ -48,8 +48,8 @@ public class HostGameActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				//Intent intent = new Intent(getApplicationContext(), );
-				//startActivity(intent);
+				Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
