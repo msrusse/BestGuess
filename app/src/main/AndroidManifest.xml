@@ -33,7 +33,8 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".HostGameActivity" />
-        <activity android:name=".EditProfileActivity"></activity>
+        <activity android:name=".EditProfileActivity" />
+        <activity android:name=".PlayGameActivity"></activity>
     </application>
 
 </manifest>

@@ -23,6 +23,7 @@ public class WelcomeActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
+		getSupportActionBar().hide();
 		welcomeText = findViewById(R.id.welcomeText);
 		joinGameButton = findViewById(R.id.playGameButton);
 		hostGameButton = findViewById(R.id.hostGameButton);

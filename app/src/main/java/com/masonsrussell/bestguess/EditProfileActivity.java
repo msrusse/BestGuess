@@ -22,9 +22,9 @@ import org.w3c.dom.Text;
 public class EditProfileActivity extends AppCompatActivity
 {
 	private FirebaseAuth mAuth;
-	TextView currentUsername, currentEmail;
+	TextView currentUsername, currentEmail, returnHomeButton;
 	EditText editUsername, editEmail, editPassword, editReenterPassword;
-	Button updateAccountButton, returnHomeButton;
+	Button updateAccountButton;
 	String usernameString, emailString, updatedUsername, updatedEmail, updatedPassword;
 	int matchingPasswords;
 
@@ -33,6 +33,7 @@ public class EditProfileActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_profile);
+		setTitle("Edit Profile");
 		onLoad();
 	}
 

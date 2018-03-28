@@ -22,6 +22,7 @@ public class HostGameActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_host_game);
+		setTitle("Host Game");
 		onLoad();
 	}
 

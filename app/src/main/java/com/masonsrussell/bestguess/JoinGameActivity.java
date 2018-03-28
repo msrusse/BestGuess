@@ -20,6 +20,7 @@ public class JoinGameActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_join_game);
+		setTitle("Join Game");
 		loadActivity();
 	}
 
