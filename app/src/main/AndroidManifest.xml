@@ -34,7 +34,8 @@
 
         <activity android:name=".HostGameActivity" />
         <activity android:name=".EditProfileActivity" />
-        <activity android:name=".PlayGameActivity"></activity>
+        <activity android:name=".PlayGameActivity" />
+        <activity android:name=".LobbyActivity"></activity>
     </application>
 
 </manifest>
