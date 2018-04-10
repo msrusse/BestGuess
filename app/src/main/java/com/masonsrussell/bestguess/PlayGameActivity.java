@@ -1,6 +1,7 @@
 package com.masonsrussell.bestguess;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class PlayGameActivity extends AppCompatActivity
 {
 	ProgressBar countdownTimer;
@@ -21,6 +26,8 @@ public class PlayGameActivity extends AppCompatActivity
 	EditText answerInput;
 	Button submitButton;
 	CountDownTimer mCountDownTimer;
+	private DatabaseReference mDatabase;
+	private FirebaseAuth mAuth;
 	double answer;
 	int i=0;
 
@@ -35,6 +42,8 @@ public class PlayGameActivity extends AppCompatActivity
 
 	void onLoad()
 	{
+		mAuth = FirebaseAuth.getInstance();
+		mDatabase = FirebaseDatabase.getInstance().getReference();
 		countdownTimer = findViewById(R.id.countdownTimer);
 		submitButton = findViewById(R.id.submitButton);
 		questionView = findViewById(R.id.displayQuestion);
@@ -51,6 +60,7 @@ public class PlayGameActivity extends AppCompatActivity
 				{
 					answer = Double.parseDouble(answerInput.getText().toString());
 				}
+				mDatabase.child("games").child(getIntent().getStringExtra("GameID")).child("players").child(mAuth.getCurrentUser().getDisplayName()).child("answer").setValue(answer);
 			}
 		});
 		countDown();
@@ -64,9 +74,8 @@ public class PlayGameActivity extends AppCompatActivity
 
 			@Override
 			public void onTick(long millisUntilFinished) {
-				Log.v("Log_tag", "Tick of Progress"+ i+ millisUntilFinished);
 				i++;
-				countdownTimer.setProgress((int)i*100/(15000/100));
+				countdownTimer.setProgress(i*100/(15000/100));
 
 			}
 
@@ -83,6 +92,10 @@ public class PlayGameActivity extends AppCompatActivity
 				{
 					answer = Double.parseDouble(answerInput.getText().toString());
 				}
+				mDatabase.child("games").child(getIntent().getStringExtra("GameID")).child("players").child(mAuth.getCurrentUser().getDisplayName()).child("answer").setValue(answer);
+				Intent intent = new Intent(getApplicationContext(), ScoreBoardActivity.class);
+				intent.putExtra("GameID", getIntent().getStringExtra("GameID"));
+				startActivity(intent);
 			}
 		};
 		mCountDownTimer.start();

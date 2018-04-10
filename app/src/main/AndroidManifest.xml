@@ -36,7 +36,8 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".PlayGameActivity" />
         <activity android:name=".LobbyActivity" />
-        <activity android:name=".MainLobbyActivity"></activity>
+        <activity android:name=".MainLobbyActivity" />
+        <activity android:name=".ScoreBoardActivity"></activity>
     </application>
 
 </manifest>

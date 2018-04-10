@@ -45,6 +45,7 @@ public class MainLobbyActivity extends AppCompatActivity
 
 	void onLoad()
 	{
+		getActionBar().setTitle("Lobby");
 		userListView = findViewById(R.id.usersList);
 		gameIDTextView = findViewById(R.id.gameIDTextView);
 		mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -58,7 +59,7 @@ public class MainLobbyActivity extends AppCompatActivity
 			public void onDataChange(DataSnapshot dataSnapshot)
 			{
 				Boolean isActive = dataSnapshot.getValue(Boolean.class);
-				if (isActive.equals(true))
+				if (isActive)
 				{
 					Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
 					startActivity(intent);
@@ -124,7 +125,7 @@ public class MainLobbyActivity extends AppCompatActivity
 		private int id;
 		private List<String> items;
 
-		public CustomListAdapter(Context context, int textViewResourceId, List<String> list)
+		private CustomListAdapter(Context context, int textViewResourceId, List<String> list)
 		{
 			super(context, textViewResourceId, list);
 			mContext = context;

@@ -1,22 +1,19 @@
 package com.masonsrussell.bestguess;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,74 +24,84 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LobbyActivity extends AppCompatActivity
+public class ScoreBoardActivity extends AppCompatActivity
 {
-
-	ArrayList<String> usersInGame = new ArrayList<>();
 	private DatabaseReference mDatabase;
-	ListView userListView;
+	ListView scoresList;
+	ArrayList<String> users = new ArrayList<>();
+	ArrayList<String> usersWithScores = new ArrayList<>();
 	String gameID;
-	Button startGameButton;
-	TextView gameIDTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_admin_lobby);
+		setContentView(R.layout.activity_score_board);
 		onLoad();
 	}
 
-	void onLoad()
+	private void onLoad()
 	{
-		userListView = findViewById(R.id.usersList);
-		gameIDTextView = findViewById(R.id.gameIDTextView);
-		startGameButton = findViewById(R.id.startGameButton);
 		mDatabase = FirebaseDatabase.getInstance().getReference();
+		scoresList = findViewById(R.id.usersList);
 		gameID = getIntent().getStringExtra("GameID");
-		gameIDTextView.setText(gameID);
-		DatabaseReference games = mDatabase.child("games");
-		DatabaseReference currentGame = games.child(gameID);
-		startGameButton.setOnClickListener(new View.OnClickListener() {
+		getUsers();
+
+	}
+
+	private void getUsers()
+	{
+		DatabaseReference usersRef = mDatabase.child("games").child(gameID).child("players");
+
+		usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
 			@Override
-			public void onClick(View v)
+			public void onDataChange(DataSnapshot dataSnapshot)
 			{
-				mDatabase.child("games").child(gameID).child("gameInfo").child("isGameActive").setValue(true);
-				Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
-				intent.putExtra("GameID", gameID);
-				startActivity(intent);
+				users.clear();
+				HashMap<String, Object> text = (HashMap) dataSnapshot.getValue();
+				users.addAll(text.keySet());
+				getScores();
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError)
+			{
+
 			}
 		});
+	}
 
-		try
+	private void getScores()
+	{
+		DatabaseReference usersRef = mDatabase.child("games").child(gameID).child("players");
+		for (final String name : users)
 		{
-			currentGame.child("players").addValueEventListener(new ValueEventListener()
-			{
+			usersRef.child(name).child("score").addListenerForSingleValueEvent(new ValueEventListener() {
 				@Override
 				public void onDataChange(DataSnapshot dataSnapshot)
 				{
-					usersInGame.clear();
-					HashMap<String, Object> text = (HashMap) dataSnapshot.getValue();
-					usersInGame.addAll(text.keySet());
-					//ArrayAdapter<String> adapter = new ArrayAdapter<>(LobbyActivity.this, android.R.layout.simple_list_item_1, usersInGame);
-					ListAdapter listAdapter = new CustomListAdapter(LobbyActivity.this, R.layout.lobby_player_list_item, usersInGame);
-					userListView.setAdapter(listAdapter);
+					Object score = dataSnapshot.getValue(Object.class);
+					String userAndScore = name + ": " + String.valueOf(score);
+					usersWithScores.add(userAndScore);
+					setListView();
 				}
 
 				@Override
 				public void onCancelled(DatabaseError databaseError)
 				{
-					Log.d(CreateAccountActivity.TAG, databaseError.getDetails());
+
 				}
 			});
 		}
-		catch (Exception ex)
-		{
-			Log.d(CreateAccountActivity.TAG, ex.getMessage());
-		}
 	}
 
-	public class CustomListAdapter extends ArrayAdapter <String>
+	private void setListView()
+	{
+		ListAdapter listAdapter = new CustomListAdapter(ScoreBoardActivity.this, R.layout.lobby_player_list_item, usersWithScores);
+		scoresList.setAdapter(listAdapter);
+	}
+
+	private class CustomListAdapter extends ArrayAdapter<String>
 	{
 
 		private Context mContext;
@@ -131,4 +138,5 @@ public class LobbyActivity extends AppCompatActivity
 			return mView;
 		}
 	}
+
 }
