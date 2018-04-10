@@ -1,7 +1,6 @@
 package com.masonsrussell.bestguess;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,40 +25,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class LobbyActivity extends AppCompatActivity
+public class MainLobbyActivity extends AppCompatActivity
 {
 
 	ArrayList<String> usersInGame = new ArrayList<>();
 	private DatabaseReference mDatabase;
 	ListView userListView;
 	String gameID;
-	Button startGameButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_admin_lobby);
+		setContentView(R.layout.activity_lobby);
 		onLoad();
 	}
 
 	void onLoad()
 	{
 		userListView = findViewById(R.id.usersList);
-		startGameButton = findViewById(R.id.startGameButton);
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		gameID = getIntent().getStringExtra("GameID");
 		DatabaseReference games = mDatabase.child("games");
 		DatabaseReference currentGame = games.child(gameID);
-		startGameButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v)
-			{
-				mDatabase.child("games").child(gameID).child("gameInfo").child("isStarted").setValue(true);
-				Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
-				startActivity(intent);
-			}
-		});
 
 		try
 		{
@@ -90,7 +77,7 @@ public class LobbyActivity extends AppCompatActivity
 						}
 					}
 					//ArrayAdapter<String> adapter = new ArrayAdapter<>(LobbyActivity.this, android.R.layout.simple_list_item_1, usersInGame);
-					ListAdapter listAdapter = new CustomListAdapter(LobbyActivity.this, R.layout.lobby_player_list_item, usersInGame);
+					ListAdapter listAdapter = new CustomListAdapter(MainLobbyActivity.this, R.layout.lobby_player_list_item, usersInGame);
 					userListView.setAdapter(listAdapter);
 				}
 
