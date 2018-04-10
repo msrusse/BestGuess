@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class JoinGameActivity extends AppCompatActivity
 {
@@ -63,34 +64,21 @@ public class JoinGameActivity extends AppCompatActivity
 			{
 				gameToJoin = gameID.getText().toString();
 				setContentView(R.layout.activity_loading_screen);
-				mDatabase.child("games").addValueEventListener(new ValueEventListener()
+				mDatabase.child("games").addListenerForSingleValueEvent(new ValueEventListener()
 				{
-
 					@Override
 					public void onDataChange(DataSnapshot dataSnapshot)
 					{
-						try
+						games.clear();
+						HashMap<String, Object> text = (HashMap) dataSnapshot.getValue();
+						if (text != null)
 						{
-							HashMap<String, Object> text = (HashMap) dataSnapshot.getValue();
-							for (String key : text.keySet())
-							{
-								for (String x : games)
-								{
-									if (x.equals(key))
-									{
-										continue;
-									}
-									else
-									{
-										games.add(key);
-									}
-								}
-							}
+							games.addAll(text.keySet());
 							checkForGame();
 						}
-						catch (Exception ex)
+						else
 						{
-							Toast.makeText(JoinGameActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+							Log.d(CreateAccountActivity.TAG, "Text is null");
 						}
 					}
 
@@ -98,16 +86,15 @@ public class JoinGameActivity extends AppCompatActivity
 					public void onCancelled(DatabaseError databaseError)
 					{
 						Log.d(CreateAccountActivity.TAG, "Try something else");
+						reloadActivity();
 					}
 				});
-				reloadActivity();
 			}
 		});
 	}
 
 	private void reloadActivity()
 	{
-		Toast.makeText(getApplicationContext(),"Invalid Game ID", Toast.LENGTH_SHORT).show();
 		setContentView(R.layout.activity_join_game);
 		setTitle("Join Game");
 		mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -135,19 +122,9 @@ public class JoinGameActivity extends AppCompatActivity
 					@Override
 					public void onDataChange(DataSnapshot dataSnapshot)
 					{
-						try
-						{
 							HashMap<String, Object> text = (HashMap) dataSnapshot.getValue();
-							for (String key : text.keySet())
-							{
-								games.add(key);
-							}
+							games.addAll(text.keySet());
 							checkForGame();
-						}
-						catch (Exception ex)
-						{
-							Toast.makeText(JoinGameActivity.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-						}
 					}
 
 					@Override
@@ -174,8 +151,17 @@ public class JoinGameActivity extends AppCompatActivity
 
 	private void gameExists(String game)
 	{
-		mDatabase.child("games").child(game).child("players").setValue(mAuth.getCurrentUser().getDisplayName());
-		Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
+		DatabaseReference games = mDatabase.child("games");
+		DatabaseReference gameRef = games.child(game);
+		DatabaseReference playersRef = gameRef.child("players").child(mAuth.getCurrentUser().getDisplayName());
+
+		Map<String, Object> playerInfo = new HashMap<>();
+		playerInfo.put("answer", -1);
+		playerInfo.put("score", 0);
+		playersRef.updateChildren(playerInfo);
+
+		Intent intent = new Intent(getApplicationContext(), MainLobbyActivity.class);
+		intent.putExtra("GameID", game);
 		startActivity(intent);
 		finish();
 	}

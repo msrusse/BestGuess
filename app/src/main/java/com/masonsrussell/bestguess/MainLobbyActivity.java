@@ -1,6 +1,7 @@
 package com.masonsrussell.bestguess;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -30,6 +31,7 @@ public class MainLobbyActivity extends AppCompatActivity
 
 	ArrayList<String> usersInGame = new ArrayList<>();
 	private DatabaseReference mDatabase;
+	TextView gameIDTextView;
 	ListView userListView;
 	String gameID;
 
@@ -44,10 +46,31 @@ public class MainLobbyActivity extends AppCompatActivity
 	void onLoad()
 	{
 		userListView = findViewById(R.id.usersList);
+		gameIDTextView = findViewById(R.id.gameIDTextView);
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		gameID = getIntent().getStringExtra("GameID");
+		gameIDTextView.setText(gameID);
 		DatabaseReference games = mDatabase.child("games");
 		DatabaseReference currentGame = games.child(gameID);
+
+		currentGame.child("gameInfo").child("isGameActive").addValueEventListener(new ValueEventListener() {
+			@Override
+			public void onDataChange(DataSnapshot dataSnapshot)
+			{
+				Boolean isActive = dataSnapshot.getValue(Boolean.class);
+				if (isActive.equals(true))
+				{
+					Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
+					startActivity(intent);
+				}
+			}
+
+			@Override
+			public void onCancelled(DatabaseError databaseError)
+			{
+
+			}
+		});
 
 		try
 		{

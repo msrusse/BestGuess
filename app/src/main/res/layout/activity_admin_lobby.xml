@@ -24,6 +24,16 @@
             android:layout_marginTop="16dp"
             app:srcCompat="@drawable/logo" />
 
+        <TextView
+            android:id="@+id/gameIDTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:fontFamily="@font/architects_daughter"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp" />
+
 
     </LinearLayout>
 
@@ -37,6 +47,7 @@
             android:id="@+id/usersList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_marginTop="8dp"
             android:background="@color/colorPrimary"
             android:divider="@color/backgroundDark"

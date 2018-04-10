@@ -62,10 +62,7 @@ public class HostGameActivity extends AppCompatActivity
 				public void onDataChange(DataSnapshot dataSnapshot)
 				{
 					HashMap<String, Object> text = (HashMap)dataSnapshot.getValue();
-					for (String key : text.keySet())
-					{
-						decks.add(key);
-					}
+					decks.addAll(text.keySet());
 					ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(HostGameActivity.this, R.layout.spinner_style, decks);
 					dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 					deckSelectionSpinner.setAdapter(dataAdapter);
@@ -134,9 +131,8 @@ public class HostGameActivity extends AppCompatActivity
 		gameInfo.put("category", category);
 		gameInfo.put("currentQuestion", "");
 		gameInfo.put("currentAnswer", "");
-		gameInfo.put("isStarted", false);
 		gameInfo.put("startedAt", returnSeconds());
-		gameInfo.put("isGameActive", true);
+		gameInfo.put("isGameActive", false);
 		gameInfoRef.updateChildren(gameInfo);
 
 		Map<String, Object> playerInfo = new HashMap<>();

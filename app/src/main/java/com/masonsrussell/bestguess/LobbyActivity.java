@@ -35,6 +35,7 @@ public class LobbyActivity extends AppCompatActivity
 	ListView userListView;
 	String gameID;
 	Button startGameButton;
+	TextView gameIDTextView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -47,16 +48,18 @@ public class LobbyActivity extends AppCompatActivity
 	void onLoad()
 	{
 		userListView = findViewById(R.id.usersList);
+		gameIDTextView = findViewById(R.id.gameIDTextView);
 		startGameButton = findViewById(R.id.startGameButton);
 		mDatabase = FirebaseDatabase.getInstance().getReference();
 		gameID = getIntent().getStringExtra("GameID");
+		gameIDTextView.setText(gameID);
 		DatabaseReference games = mDatabase.child("games");
 		DatabaseReference currentGame = games.child(gameID);
 		startGameButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v)
 			{
-				mDatabase.child("games").child(gameID).child("gameInfo").child("isStarted").setValue(true);
+				mDatabase.child("games").child(gameID).child("gameInfo").child("isGameActive").setValue(true);
 				Intent intent = new Intent(getApplicationContext(), PlayGameActivity.class);
 				startActivity(intent);
 			}
@@ -69,25 +72,11 @@ public class LobbyActivity extends AppCompatActivity
 				@Override
 				public void onDataChange(DataSnapshot dataSnapshot)
 				{
+					usersInGame.clear();
 					HashMap<String, Object> text = (HashMap) dataSnapshot.getValue();
 					for (String key : text.keySet())
 					{
-						if (usersInGame.size() > 0)
-						{
-							for (String user : usersInGame)
-							{
-								if (user.equals(key))
-								{
-									continue;
-								} else
-								{
-									usersInGame.add(key);
-								}
-							}
-						} else
-						{
-							usersInGame.add(key);
-						}
+						usersInGame.add(key);
 					}
 					//ArrayAdapter<String> adapter = new ArrayAdapter<>(LobbyActivity.this, android.R.layout.simple_list_item_1, usersInGame);
 					ListAdapter listAdapter = new CustomListAdapter(LobbyActivity.this, R.layout.lobby_player_list_item, usersInGame);
